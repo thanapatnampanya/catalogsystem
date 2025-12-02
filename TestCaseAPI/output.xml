@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.9.6 on darwin)" generated="2025-12-02T14:13:15.841532" rpa="false" schemaversion="5">
+<suite id="s1" name="ItemPriceAPI" source="/Users/north/Documents/Automation/North Showcase/TestCaseAPI/ItemPriceAPI.robot">
+<test id="s1-t1" name="ITEM PRICE INFO" line="7">
+<kw name="Get Item Price" owner="commonkeywords">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2025-12-02T14:13:16.125470" level="INFO">Creating Session using : alias=rm3, url=https://rm3-api.mango-qa.siammakro.cloud, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>rm3</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2025-12-02T14:13:16.125356" elapsed="0.000237"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<msg time="2025-12-02T14:13:16.125883" level="INFO">${store_code_int} = 1</msg>
+<var>${store_code_int}</var>
+<arg>${STORE_CODE}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.125700" elapsed="0.000206"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-12-02T14:13:16.126212" level="INFO">${headers} = {'Content-Type': 'application/json', 'Accept': 'application/hal+json'}</msg>
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Accept=application/hal+json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.126010" elapsed="0.000228"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-12-02T14:13:16.126606" level="INFO">${body} = {'cus': '8040001151', 'store': 1, 'date': '2025-12-02T10:10:55.816Z', 'productList': ['800000']}</msg>
+<var>${body}</var>
+<arg>cus=${CV_CODE}</arg>
+<arg>store=${store_code_int}</arg>
+<arg>date=${ITEM_PRICE_DATE}</arg>
+<arg>productList=@{PRODUCT_LIST}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.126346" elapsed="0.000281"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-12-02T14:13:16.346371" level="INFO">POST Request : url=https://rm3-api.mango-qa.siammakro.cloud/catalog/v1/customers/items/prices 
+ path_url=/catalog/v1/customers/items/prices 
+ headers={'User-Agent': 'python-requests/2.22.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': 'application/hal+json', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '96'} 
+ body=b'{"cus": "8040001151", "store": 1, "date": "2025-12-02T10:10:55.816Z", "productList": ["800000"]}' 
+ </msg>
+<msg time="2025-12-02T14:13:16.346666" level="INFO">POST Response : url=https://rm3-api.mango-qa.siammakro.cloud/catalog/v1/customers/items/prices 
+ status=200, reason= 
+ headers={'Date': 'Tue, 02 Dec 2025 07:13:16 GMT', 'Content-Type': 'application/hal+json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'X-Content-Type-Options': 'nosniff', 'X-XSS-Protection': '0', 'Cache-Control': 'no-cache, no-store, max-age=0, must-revalidate', 'Pragma': 'no-cache', 'Expires': '0', 'Strict-Transport-Security': 'max-age=31536000 ; includeSubDomains', 'X-Frame-Options': 'DENY'} 
+ body={"success":true,"message":null,"data":{"cus":"8040001151","tier":"T1","requestedStoreId":"1","primaryStoreId":"74","items":[{"id":"800000","customInvatPrice":450,"customExvatPrice":420.56,"isContractPrice":"Y","catalogType":"Contract_Price","storeId":74}]}} 
+ </msg>
+<msg time="2025-12-02T14:13:16.346771" level="INFO">/Users/north/Library/Python/3.9/lib/python/site-packages/urllib3/connectionpool.py:981: InsecureRequestWarning: Unverified HTTPS request is being made to host 'rm3-api.mango-qa.siammakro.cloud'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  warnings.warn(</msg>
+<msg time="2025-12-02T14:13:16.346966" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>rm3</arg>
+<arg>${ITEM_PRICE_ENDPOINT}</arg>
+<arg>json=${body}</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.126726" elapsed="0.220287"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>${response.status_code}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.347305" elapsed="0.000836"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>${response.text}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.348359" elapsed="0.000787"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-12-02T14:13:16.349931" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.349354" elapsed="0.000663"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2025-12-02T14:13:16.350101" elapsed="0.000064"/>
+</return>
+<msg time="2025-12-02T14:13:16.350360" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<status status="PASS" start="2025-12-02T14:13:16.124637" elapsed="0.225805"/>
+</kw>
+<kw name="Verify Price Info Response Get Price Info Valid From Item Price API" owner="commonkeywords">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-12-02T14:13:16.352405" level="INFO">${parsed_resp} = {'success': True, 'message': None, 'data': {'cus': '8040001151', 'tier': 'T1', 'requestedStoreId': '1', 'primaryStoreId': '74', 'items': [{'id': '800000', 'customInvatPrice': 450, 'customExvatPrice': ...</msg>
+<var>${parsed_resp}</var>
+<arg>json.loads('''${resp}''')</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.351928" elapsed="0.000527"/>
+</kw>
+<kw name="Get From Dictionary" owner="Collections">
+<msg time="2025-12-02T14:13:16.352924" level="INFO">${data} = {'cus': '8040001151', 'tier': 'T1', 'requestedStoreId': '1', 'primaryStoreId': '74', 'items': [{'id': '800000', 'customInvatPrice': 450, 'customExvatPrice': 420.56, 'isContractPrice': 'Y', 'catalogTyp...</msg>
+<var>${data}</var>
+<arg>${parsed_resp}</arg>
+<arg>data</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.352663" elapsed="0.000302"/>
+</kw>
+<kw name="Get From Dictionary" owner="Collections">
+<msg time="2025-12-02T14:13:16.353367" level="INFO">${items} = [{'id': '800000', 'customInvatPrice': 450, 'customExvatPrice': 420.56, 'isContractPrice': 'Y', 'catalogType': 'Contract_Price', 'storeId': 74}]</msg>
+<var>${items}</var>
+<arg>${data}</arg>
+<arg>items</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.353141" elapsed="0.000265"/>
+</kw>
+<kw name="Get From List" owner="Collections">
+<msg time="2025-12-02T14:13:16.353799" level="INFO">${first_item} = {'id': '800000', 'customInvatPrice': 450, 'customExvatPrice': 420.56, 'isContractPrice': 'Y', 'catalogType': 'Contract_Price', 'storeId': 74}</msg>
+<var>${first_item}</var>
+<arg>${items}</arg>
+<arg>0</arg>
+<doc>Returns the value specified with an ``index`` from ``list``.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.353579" elapsed="0.000257"/>
+</kw>
+<kw name="Get From Dictionary" owner="Collections">
+<msg time="2025-12-02T14:13:16.354284" level="INFO">${is_contract_price} = Y</msg>
+<var>${is_contract_price}</var>
+<arg>${first_item}</arg>
+<arg>isContractPrice</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.354008" elapsed="0.000318"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${is_contract_price}</arg>
+<arg>Y</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-12-02T14:13:16.354521" elapsed="0.000364"/>
+</kw>
+<arg>${response.text}</arg>
+<status status="PASS" start="2025-12-02T14:13:16.350784" elapsed="0.004290"/>
+</kw>
+<status status="PASS" start="2025-12-02T14:13:16.124186" elapsed="0.231091"/>
+</test>
+<status status="PASS" start="2025-12-02T14:13:15.842690" elapsed="0.513070"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="ItemPriceAPI" id="s1" pass="1" fail="0" skip="0">ItemPriceAPI</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-12-02T14:13:16.119781" level="ERROR">Error in file '/Users/north/Documents/Automation/North Showcase/Keyword/commonlib.resource' on line 15: Error in file '/Users/north/Documents/Automation/North Showcase/Keyword/contract_price.resource' on line 1: Unrecognized section header '***'. Valid sections: 'Settings', 'Variables', 'Keywords' and 'Comments'.</msg>
+<msg time="2025-12-02T14:13:16.122664" level="WARN">Error in file '/Users/north/Documents/Automation/North Showcase/Keyword/commonkeywords.resource' on line 22: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+<msg time="2025-12-02T14:13:16.122813" level="WARN">Error in file '/Users/north/Documents/Automation/North Showcase/Keyword/commonkeywords.resource' on line 55: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+</errors>
+</robot>
